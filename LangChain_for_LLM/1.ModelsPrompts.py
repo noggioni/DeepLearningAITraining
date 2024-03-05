@@ -215,3 +215,6 @@ messages = prompt.format_messages(text=customer_review,
 print(messages[0].content)
 
 response = chat(messages)
+
+## Response
+

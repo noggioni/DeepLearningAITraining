@@ -77,4 +77,31 @@ examples += new_examples
 qa.run(examples[0]["query"])
 
 
+import langchain
+langchain.debug = True
+qa.run(examples[0]["query"])
+langchain.debug = False
+
+
+## LLM assisted evaluation
+
+predictions = qa.apply(examples)
+
+from langchain.evaluation.qa import QAEvalChain
+
+llm = ChatOpenAI(temperature=0, model=llm_model)
+eval_chain = QAEvalChain.from_llm(llm)
+
+graded_outputs = eval_chain.evaluate(examples, predictions)
+
+for i, eg in enumerate(examples):
+    print(f"Example {i}:")
+    print("Question: " + predictions[i]['query'])
+    print("Real Answer: " + predictions[i]['answer'])
+    print("Predicted Answer: " + predictions[i]['result'])
+    print("Predicted Grade: " + graded_outputs[i]['text'])
+    print()
+
+graded_outputs[0]
+
 

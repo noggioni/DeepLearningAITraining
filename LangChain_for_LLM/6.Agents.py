@@ -78,5 +78,34 @@ last name and then first name \
 and print the output: {customer_list}""") 
 langchain.debug=False
 
+## Define your own tool
+
+#!pip install DateTime
+
+from langchain.agents import tool
+from datetime import date
+
+@tool
+def time(text: str) -> str:
+    """Returns todays date, use this for any \
+    questions related to knowing todays date. \
+    The input should always be an empty string, \
+    and this function will always return todays \
+    date - any date mathmatics should occur \
+    outside this function."""
+    return str(date.today())
+
+agent= initialize_agent(
+    tools + [time], 
+    llm, 
+    agent=AgentType.CHAT_ZERO_SHOT_REACT_DESCRIPTION,
+    handle_parsing_errors=True,
+    verbose = True)
+
+try:
+    result = agent("whats the date today?") 
+except: 
+    print("exception on external access")
+
 
 

@@ -57,6 +57,9 @@ text: ```{text}```
 """
 from langchain.prompts import ChatPromptTemplate
 
+chat = ChatOpenAI(temperature=0.0, model=llm_model)
+chat
+
 prompt_template = ChatPromptTemplate.from_template(template_string)
 
 prompt_template.messages[0].prompt

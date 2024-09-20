@@ -1,9 +1,10 @@
 import os
-import openai
+from openai import OpenAI
 
-from dotenv import load_dotenv, find_dotenv
-_ = load_dotenv(find_dotenv()) # read local .env file
-openai.api_key = os.environ['OPENAI_API_KEY']
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=os.environ.get("OPENAI_API_KEY"),
+)
 
 import json
 
@@ -41,15 +42,19 @@ functions = [
 messages = [
     {
         "role": "user",
-        "content": "What's the weather like in Boston?"
+        "content": "What is the weather in Miami?"
     }
 ]
 
 import openai
 
-response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo-0613",
+response = client.chat.completions.create(
     messages=messages,
-    functions=functions
+    model="gpt-4o" ,
+    functions=functions,
+    function_call="auto"   
 )
 
+print(response.choices[0].message.content)
+
+print(response)

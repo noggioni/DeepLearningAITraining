@@ -56,6 +56,9 @@ into a style that is {style}. \
 text: ```{text}```
 """
 from langchain.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
+
+llm_model ="gpt-4o"
 
 chat = ChatOpenAI(temperature=0.0, model=llm_model)
 chat

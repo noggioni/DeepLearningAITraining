@@ -1,7 +1,13 @@
 import os
 
-from dotenv import load_dotenv, find_dotenv
-_ = load_dotenv(find_dotenv()) # read local .env file
+from openai import OpenAI
+
+client = OpenAI(
+        api_key=os.getenv('OPENAI_API_KEY')
+    )
+
+# from dotenv import load_dotenv, find_dotenv
+# _ = load_dotenv(find_dotenv()) # read local .env file
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -20,7 +26,8 @@ if current_date > target_date:
 else:
     llm_model = "gpt-3.5-turbo-0301"
 
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
+# from langchain.chat_models import ChatOpenAI
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferMemory
 
@@ -58,6 +65,8 @@ memory.load_memory_variables({})
 memory.save_context({"input": "Not much, just hanging"}, 
                     {"output": "Cool"})
 
+print(memory.buffer)
+
 ## ConversationBufferWindowMemory
 
 from langchain.memory import ConversationBufferWindowMemory
@@ -85,10 +94,12 @@ conversation.predict(input="What is 1+1?")
 
 conversation.predict(input="What is my name?")
 
+print(memory.buffer)
+
 ## ConversationTokenBufferMemory
 
 from langchain.memory import ConversationTokenBufferMemory
-from langchain.llms import OpenAI
+from langchain_openai import OpenAI
 llm = ChatOpenAI(temperature=0.0, model=llm_model)
 
 memory = ConversationTokenBufferMemory(llm=llm, max_token_limit=50)
@@ -100,6 +111,8 @@ memory.save_context({"input": "Chatbots are what?"},
                     {"output": "Charming!"})
 
 memory.load_memory_variables({})
+
+print(memory.buffer)
 
 ## ConversationSummaryMemory
 
@@ -133,3 +146,4 @@ conversation.predict(input="What would be a good demo to show?")
 
 memory.load_memory_variables({})
 
+print(memory.buffer)

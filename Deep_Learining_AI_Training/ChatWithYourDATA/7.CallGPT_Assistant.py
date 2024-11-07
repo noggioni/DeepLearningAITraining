@@ -6,27 +6,36 @@ client = OpenAI(
         api_key=os.getenv('OPENAI_API_KEY')
     )
 
-def get_completion_from_messages(messages, model="gpt-3.5-turbo", temperature=0):
-    
-    response = client.chat.completions.create(
-        model=model,
-        messages=messages,
-        temperature=temperature,
-    )
-    
-    return response.choices[0].message.content
 
+from openai import OpenAI
+client = OpenAI()
 
+run = client.beta.threads.create_and_run(
+  assistant_id="asst_5JdS8ufL8okfXrS5ud8OFVSC",
+  thread={
+    "messages": [
+      {"role": "user", "content": "CUSTOMER=Avianca"}
+    ]
+  }
+)
+
+print(run)
 # Define a function to call the assistant
 def call_assistant(prompt):
-    response = client.chat.completions.create(
-        model="asst_5JdS8ufL8okfXrS5ud8OFVSC",  # Assistant Name
-        messages=[{"role": "user", "content": prompt}]
+    response = client.beta.threads.create_and_run(
+        assistant_id="asst_5JdS8ufL8okfXrS5ud8OFVSC",
+        thread={
+            "messages": [
+                {"role": "user", "content": prompt}
+            ]
+        }
     )
-    return response.choices[0].message.content
+    return response[-1]
 
 # Example usage
-prompt = "[CUSTOMER=TEcnoquimicas, LANG=Spanish]"
-response = call_assistant(prompt)
+account = input("Enter the customer name --> ")
+language = input("Eter the output Languange --> ")
+prompt = f"[CUSTOMER={account}, LANG={language}]"
+ask = call_assistant(prompt)
 print("Assistant Response:")
-print(response)
+print(ask)

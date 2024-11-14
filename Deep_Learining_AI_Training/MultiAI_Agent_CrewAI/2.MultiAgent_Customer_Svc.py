@@ -123,7 +123,7 @@ quality_assurance_review = Task(
 crew = Crew(
   agents=[support_agent, support_quality_assurance_agent],
   tasks=[inquiry_resolution, quality_assurance_review],
-  verbose=2,
+  verbose=True,
   memory=True
 )
 

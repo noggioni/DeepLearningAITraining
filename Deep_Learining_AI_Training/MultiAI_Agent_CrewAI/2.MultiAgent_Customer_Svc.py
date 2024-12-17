@@ -10,7 +10,7 @@ import os
 openai_api_key=os.getenv('OPENAI_API_KEY')
 
 # openai_api_key = get_openai_api_key()
-os.environ["OPENAI_MODEL_NAME"] = 'gpt-3.5-turbo'
+os.environ["OPENAI_MODEL_NAME"] = 'gpt-4o-mini'
 
 ## Role Playing, Focus and Cooperation
 
